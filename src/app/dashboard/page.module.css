@@ -1,0 +1,313 @@
+.dashboard {
+  min-height: 100vh;
+  padding: 120px 0 80px;
+  background: var(--color-bg-main);
+}
+
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 48px;
+}
+
+.sidebar {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  padding: 32px;
+  height: fit-content;
+  position: sticky;
+  top: 120px;
+}
+
+.userBrief {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  background: var(--color-primary);
+  color: var(--color-bg-main);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userName {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-text-max);
+}
+
+.userEmail {
+  font-size: 0.875rem;
+  color: var(--color-text-mid);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--color-text-mid);
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navItem:hover, .navItem.active {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-primary);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 16px 0;
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: #ef4444;
+  font-weight: 600;
+  transition: var(--transition-standard);
+}
+
+.logoutBtn:hover {
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.mainContent {
+  flex: 1;
+}
+
+.panelTitle {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: var(--color-text-max);
+  margin-bottom: 32px;
+  letter-spacing: -0.5px;
+}
+
+.orderList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.orderCard {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 24px;
+  transition: var(--transition-standard);
+}
+
+.orderCard:hover {
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.orderMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.orderId {
+  font-weight: 800;
+  color: var(--color-text-max);
+  font-size: 1.125rem;
+}
+
+.orderDate {
+  font-size: 0.875rem;
+  color: var(--color-text-dim);
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.statusBadge.preparing { background: rgba(245, 158, 11, 0.1); color: var(--color-primary); }
+.statusBadge.delivered { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
+
+.orderBody {
+  margin-bottom: 24px;
+}
+
+.orderItems {
+  color: var(--color-text-mid);
+  font-size: 0.9375rem;
+  margin-bottom: 8px;
+}
+
+.orderTotal {
+  color: var(--color-text-max);
+}
+
+.orderFooter {
+  display: flex;
+  gap: 12px;
+}
+
+.rewardsCard {
+  background: linear-gradient(135deg, var(--color-bg-card) 0%, #111827 100%);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  padding: 32px;
+}
+
+.sparksCount {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.sparkleIcon {
+  color: var(--color-primary);
+}
+
+.count {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--color-text-max);
+  display: block;
+}
+
+.label {
+  color: var(--color-text-mid);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+.tierBar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.tierProgress {
+  height: 100%;
+  background: var(--color-primary);
+  box-shadow: 0 0 15px var(--color-primary);
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.addressList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.addressCard {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.addressLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.labelTitle {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-text-max);
+}
+
+.defaultBadge {
+  background: var(--color-primary);
+  color: var(--color-bg-main);
+  font-size: 0.625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.fullAddress {
+  color: var(--color-text-mid);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.addressActions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editBtn {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.deleteBtn {
+  color: var(--color-text-dim);
+  transition: var(--transition-standard);
+}
+
+.deleteBtn:hover {
+  color: #ef4444;
+}
+
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+  }
+}

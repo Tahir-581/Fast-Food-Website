@@ -1,0 +1,69 @@
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--color-admin-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-admin-card);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-main);
+}
+
+.th {
+  background-color: var(--color-admin-bg);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--color-text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--color-admin-border);
+}
+
+.td {
+  padding: var(--space-4);
+  font-size: var(--fs-sm);
+  color: var(--color-admin-text);
+  border-bottom: 1px solid var(--color-admin-border);
+  transition: background-color var(--transition-standard);
+}
+
+.tr:last-child .td {
+  border-bottom: none;
+}
+
+.tr:hover .td {
+  background-color: rgba(241, 245, 249, 0.5); /* Subtle slate hover */
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:active .td {
+  background-color: var(--color-admin-border);
+}
+
+/* Custom styles for deep dark tables if needed (Admin Dark Mode) */
+:global(.dark) .tableWrapper {
+  background-color: var(--color-bg-card);
+  border-color: var(--color-border);
+}
+
+:global(.dark) .th {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: var(--color-text-mid);
+  border-bottom-color: var(--color-border);
+}
+
+:global(.dark) .td {
+  color: var(--color-text-max);
+  border-bottom-color: var(--color-border);
+}
+
+:global(.dark) .tr:hover .td {
+  background-color: rgba(255, 255, 255, 0.02);
+}

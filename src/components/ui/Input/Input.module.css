@@ -1,0 +1,78 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-mid);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  background-color: rgba(30, 41, 59, 0.5); /* Semi-transparent */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text-max);
+  padding: 14px 16px;
+  border-radius: 4px; /* Matches button radius */
+  font-size: 0.9375rem;
+  transition: all 0.2s ease;
+  font-family: var(--font-main);
+}
+
+.input:focus {
+  outline: none;
+  background-color: var(--color-bg-card);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1); /* Larger focus ring */
+}
+
+.input::placeholder {
+  color: var(--color-text-mid);
+  opacity: 0.5;
+}
+
+.inputError {
+  border-color: var(--color-error);
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.icon {
+  position: absolute;
+  left: 14px;
+  color: var(--color-text-mid);
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.input:focus + .icon,
+.input:not(:placeholder-shown) + .icon {
+  color: var(--color-primary);
+}
+
+.errorMessage {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-error);
+  margin-top: 4px;
+}

@@ -1,0 +1,93 @@
+/* Midnight & Ember Design Tokens */
+
+:root {
+  /* --- Color Foundation (HSL) --- */
+  
+  /* Midnight (Backgrounds & Deeps) */
+  --midnight-h: 222;
+  --midnight-s: 47%;
+  --midnight-950: var(--midnight-h) var(--midnight-s) 4%;
+  --midnight-900: var(--midnight-h) var(--midnight-s) 7%;
+  --midnight-800: var(--midnight-h) var(--midnight-s) 12%;
+  --midnight-700: var(--midnight-h) var(--midnight-s) 18%;
+  --midnight-600: var(--midnight-h) var(--midnight-s) 25%;
+  
+  /* Ember (Primary Accents) */
+  --ember-h: 38;
+  --ember-s: 92%;
+  --ember-500: var(--ember-h) var(--ember-s) 50%;
+  --ember-400: var(--ember-h) var(--ember-s) 60%;
+  --ember-600: var(--ember-h) var(--ember-s) 40%;
+  
+  /* Neutral / Slate (Text & UI) */
+  --slate-h: 215;
+  --slate-s: 25%;
+  --slate-50: var(--slate-h) var(--slate-s) 98%;
+  --slate-100: var(--slate-h) var(--slate-s) 95%;
+  --slate-200: var(--slate-h) var(--slate-s) 90%;
+  --slate-300: var(--slate-h) var(--slate-s) 80%;
+  --slate-400: var(--slate-h) var(--slate-s) 65%;
+  --slate-500: var(--slate-h) var(--slate-s) 50%;
+  
+  /* Semantic */
+  --success: 142 71% 45%;
+  --error: 0 84% 60%;
+  --warning: 38 92% 50%;
+  
+  /* --- Computed Brand Colors --- */
+  --color-primary: hsl(var(--ember-500));
+  --color-primary-hover: hsl(var(--ember-400));
+  --color-primary-active: hsl(var(--ember-600));
+  
+  --color-bg-base: hsl(var(--midnight-950));
+  --color-bg-surface: hsl(var(--midnight-900));
+  --color-bg-elevated: hsl(var(--midnight-800));
+  
+  --color-text-primary: hsl(var(--slate-50));
+  --color-text-secondary: hsl(var(--slate-300));
+  --color-text-muted: hsl(var(--slate-500));
+  
+  --color-border: hsla(var(--slate-500) / 0.1);
+  --color-border-hover: hsla(var(--slate-500) / 0.2);
+  
+  /* --- Effects & Glassmorphism --- */
+  --glass-bg: hsla(var(--midnight-900) / 0.7);
+  --glass-border: hsla(var(--slate-50) / 0.1);
+  --glass-blur: blur(12px);
+  
+  /* --- Typography --- */
+  --font-main: var(--font-inter), ui-sans-serif, system-ui;
+  --font-display: var(--font-outfit), var(--font-main);
+  
+  /* --- Layout & Spacing --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+  
+  --container-max-width: 1280px;
+  --header-height: 72px;
+  
+  /* --- Transitions --- */
+  --ease-quartic: cubic-bezier(0.76, 0, 0.24, 1);
+  --transition-fast: 150ms var(--ease-quartic);
+  --transition-normal: 300ms var(--ease-quartic);
+  --transition-slow: 500ms var(--ease-quartic);
+}
+
+/* Base Utility Classes */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--slate-50)) 0%, hsl(var(--slate-300)) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

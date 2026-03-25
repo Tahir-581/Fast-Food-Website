@@ -1,0 +1,195 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  name          String
+  phone         String?
+  sparks        Int       @default(0)
+  loyaltyTier   String    @default("SEED") // SEED, SPROUT, FLAME
+  role          String    @default("USER") // USER, ADMIN, MANAGER
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  addresses     Address[]
+  orders        Order[]
+  cart          CartItem[]
+  tasteProfile  String?   // JSON string of preferences
+}
+
+
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  label     String   // Home, Work, etc.
+  line1     String
+  line2     String?
+  city      String
+  state     String
+  zip       String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  imageUrl  String?
+  sortOrder Int       @default(0)
+  isActive  Boolean   @default(true)
+  products  Product[]
+  createdAt DateTime  @default(now())
+}
+
+model Product {
+  id            String          @id @default(cuid())
+  categoryId    String
+  category      Category        @relation(fields: [categoryId], references: [id])
+  name          String
+  slug          String          @unique
+  description   String
+  basePrice     Float
+  imageUrl      String?
+  calories      Int?
+  isAvailable   Boolean         @default(true)
+  dietaryTags   String?         // Comma separated: VEGAN, GLUTEN_FREE, etc.
+  modifierGroups ModifierGroup[]
+  orderItems    OrderItem[]
+  inventory     Inventory?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model ModifierGroup {
+  id               String           @id @default(cuid())
+  productId        String
+  product          Product          @relation(fields: [productId], references: [id])
+  name             String
+  minSelection     Int              @default(0)
+  maxSelection     Int              @default(1)
+  isRequired       Boolean          @default(false)
+  conditionalLogic String?          // JSON for exclusion logic
+  options          ModifierOption[]
+}
+
+
+model ModifierOption {
+  id            String        @id @default(cuid())
+  groupId       String
+  group         ModifierGroup @relation(fields: [groupId], references: [id])
+  name          String
+  priceModifier Float         @default(0)
+  isDefault     Boolean       @default(false)
+  isAvailable   Boolean       @default(true)
+  stock         Int?          // Specific stock for rare modifiers
+}
+
+
+model Order {
+  id               String           @id @default(cuid())
+  userId           String?          // Null for guest checkout
+  user             User?            @relation(fields: [userId], references: [id])
+  status           String           @default("PENDING") // PENDING, CONFIRMED, PREPARING, READY, OUT_FOR_DELIVERY, COMPLETED, CANCELLED
+  type             String           @default("DELIVERY") // DELIVERY, PICKUP
+  subtotal         Float
+  tax              Float
+  deliveryFee      Float            @default(0)
+  total            Float
+  address          String?          // Snapshot of address at time of order
+  estimatedArrival DateTime?
+  items            OrderItem[]
+  payment          Payment?
+  logs             FulfillmentLog[]
+  couponId         String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+}
+
+model FulfillmentLog {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  status    String
+  actor     String?  // Who changed it (Admin ID or System)
+  note      String?
+  createdAt DateTime @default(now())
+}
+
+
+model OrderItem {
+  id              String  @id @default(cuid())
+  orderId         String
+  order           Order   @relation(fields: [orderId], references: [id])
+  productId       String
+  product         Product @relation(fields: [productId], references: [id])
+  nameAtPurchase  String
+  priceAtPurchase Float
+  quantity        Int
+  customizations  String? // JSON string of modifiers chosen
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  orderId         String   @unique
+  order           Order    @relation(fields: [orderId], references: [id])
+  status          String   @default("PENDING") // PENDING, CAPTURED, FAILED, REFUNDED
+  provider        String   @default("STRIPE")
+  providerOrderId String?
+  amount          Float
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Coupon {
+  id            String    @id @default(cuid())
+  code          String    @unique
+  type          String    // PERCENT, FIXED
+  value         Float
+  minOrderValue Float     @default(0)
+  usageLimit    Int?
+  usedCount     Int       @default(0)
+  expiresAt     DateTime?
+  isActive      Boolean   @default(true)
+}
+
+model CartItem {
+  id        String @id @default(cuid())
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+  productId String
+  quantity  Int
+  modifiers String? // JSON string of selected modifiers
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Setting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+model Inventory {
+  id        String   @id @default(cuid())
+  productId String   @unique
+  product   Product  @relation(fields: [productId], references: [id])
+  stock     Int      @default(0)
+  unit      String   @default("pcs")
+  threshold Int      @default(10)
+  updatedAt DateTime @updatedAt
+}

@@ -1,0 +1,31 @@
+.card {
+  background-color: var(--color-bg-card);
+  border-radius: 20px; /* Sophisticated large radius */
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle border */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  position: relative;
+}
+
+.hoverable {
+  cursor: pointer;
+}
+
+.hoverable:hover {
+  transform: translateY(-8px); /* Deeper lift */
+  border-color: rgba(245, 158, 11, 0.3);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 
+              0 0 20px rgba(245, 158, 11, 0.05); /* Subtle ember glow */
+}
+
+.glass {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.p-none { padding: 0; }
+.p-sm { padding: 12px; }
+.p-md { padding: 24px; }
+.p-lg { padding: 32px; }

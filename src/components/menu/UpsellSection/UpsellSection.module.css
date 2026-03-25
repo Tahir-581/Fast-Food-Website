@@ -1,0 +1,90 @@
+.upsellSection {
+  padding: 40px 0;
+  background-color: var(--color-bg-card);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  margin: 60px 0;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-text-max);
+  margin-bottom: 4px;
+}
+
+.sparkleIcon {
+  color: var(--color-primary);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.subtitle {
+  color: var(--color-text-mid);
+  font-size: 0.9375rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.upsellCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.itemInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon {
+  font-size: 2rem;
+}
+
+.text h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-max);
+}
+
+.price {
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.addBtn {
+  width: 40px;
+  height: 40px;
+  padding: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

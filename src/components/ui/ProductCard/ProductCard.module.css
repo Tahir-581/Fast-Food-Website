@@ -1,0 +1,155 @@
+.productCard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 220px; /* Bit more height for premium feel */
+  overflow: hidden;
+  background-color: #0c111e;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.productCard:hover .imageContainer {
+  transform: scale(1.08);
+}
+
+.productImage {
+  object-fit: cover;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.productCard:hover .imagePlaceholder {
+  transform: scale(1.1); /* Zoom effect on hover */
+}
+
+
+.categoryIcon {
+  font-size: 5rem;
+  z-index: 2;
+  filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.2));
+}
+
+.glow {
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+  opacity: 0.1;
+  filter: blur(40px);
+}
+
+.badgeWrapper {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.badge {
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.content {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-max);
+  line-height: 1.2;
+}
+
+.price {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--color-primary);
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+}
+
+.description {
+  font-size: 0.875rem;
+  color: var(--color-text-mid);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  flex: 1;
+  opacity: 0.8;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-mid);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.flameIcon {
+  color: var(--color-primary);
+}
+
+.addButton {
+  width: 44px;
+  height: 44px;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px !important; /* Consistent with Button */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.addButton:hover {
+  transform: scale(1.05) translateY(-2px) !important;
+  box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
+}
