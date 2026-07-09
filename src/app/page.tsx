@@ -8,11 +8,12 @@ import LocationBar from '@/components/home/LocationBar/LocationBar';
 import AppLoyalty from '@/components/home/AppLoyalty/AppLoyalty';
 import Testimonials from '@/components/home/Testimonials/Testimonials';
 import QuickReorder from '@/components/home/QuickReorder/QuickReorder';
-import styles from './page.module.css';
+import { cn } from "@/lib/utils";
+import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <main className={styles.home}>
+    <main className={cn(styles.home, "mesh-bg")}>
       <Hero />
       <LocationBar />
       <Categories />

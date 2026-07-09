@@ -1,12 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
-import { X, Flame, Minus, Plus } from 'lucide-react';
-import { useShopStore } from '@/lib/store';
-import Button from '@/components/ui/Button/Button';
-import styles from './ProductDrawer.module.css';
+import React, { useState } from "react";
+import Image from "next/image";
+import { Flame, Minus, Plus, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import { useShopStore } from "@/lib/store";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 const ProductDrawer = () => {
   const { selectedDrawerProduct, setSelectedDrawerProduct, addItem } = useShopStore();
@@ -15,16 +17,13 @@ const ProductDrawer = () => {
 
   const product: any = selectedDrawerProduct;
   const basePrice = product?.price || product?.basePrice || 0;
-  
-  // Flatten modifiers for easier calculation
-  // Calculation logic with relational data
+
   const modifierPrice = selectedModifiers.reduce((sum: number, mod: any) => sum + (mod.priceModifier || 0), 0);
   const totalPrice = (basePrice + modifierPrice) * quantity;
 
-  // Validation logic
   const isSelectionValid = (product?.modifierGroups || []).every((group: any) => {
     if (!group.isRequired || group.minSelection === 0) return true;
-    const selectedInGroup = selectedModifiers.filter((m: any) => 
+    const selectedInGroup = selectedModifiers.filter((m: any) =>
       group.options.some((o: any) => o.id === m.id)
     ).length;
     return selectedInGroup >= group.minSelection;
@@ -38,12 +37,11 @@ const ProductDrawer = () => {
 
   const handleAddToCart = () => {
     if (!isSelectionValid) return;
-    
-    // Store customization details
+
     const customizations = selectedModifiers.map((m: any) => ({
       id: m.id,
       name: m.name,
-      price: m.priceModifier
+      price: m.priceModifier,
     }));
 
     if (selectedDrawerProduct) {
@@ -55,18 +53,14 @@ const ProductDrawer = () => {
   const toggleModifier = (group: any, option: any) => {
     setSelectedModifiers((prev: any[]) => {
       const isSelected = prev.some((m: any) => m.id === option.id);
-      
+
       if (isSelected) {
-        // Only allow unselecting if it doesn't violate minSelection (simplified for UI)
         return prev.filter((m: any) => m.id !== option.id);
       }
 
-      const selectedInGroup = prev.filter((m: any) => 
-        group.options.some((o: any) => o.id === m.id)
-      );
+      const selectedInGroup = prev.filter((m: any) => group.options.some((o: any) => o.id === m.id));
 
       if (group.maxSelection === 1) {
-        // Radio logic
         const filtered = prev.filter((m: any) => !group.options.some((o: any) => o.id === m.id));
         return [...filtered, option];
       }
@@ -80,91 +74,97 @@ const ProductDrawer = () => {
   };
 
   const modifierGroups = product?.modifierGroups || [];
+  const open = !!selectedDrawerProduct;
 
   return (
-    <AnimatePresence>
-      {selectedDrawerProduct && (
-        <motion.div 
-          className={styles.overlay} 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={handleClose}
-        >
-          <motion.div 
-            className={styles.drawer} 
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <header className={styles.header}>
-              <div className={styles.headerTitle}>
-                <span className={styles.studioLabel}>PRODUCT STUDIO</span>
-                <h2 className={styles.productTitle}>{product.name}</h2>
-              </div>
-              <button className={styles.closeBtn} onClick={handleClose}>
-                <X size={24} />
-              </button>
-            </header>
+    <Sheet
+      open={open}
+      onOpenChange={(next) => {
+        if (!next) handleClose();
+      }}
+    >
+      <SheetContent
+        side="right"
+        showCloseButton
+        className="flex w-full max-w-[min(100vw,32rem)] flex-col border-l-border/80 bg-card p-0 sm:max-w-lg"
+      >
+        {product && (
+          <>
+            <SheetHeader className="shrink-0 space-y-3 border-b border-border/60 bg-gradient-to-b from-muted/40 to-card px-5 py-6 text-left sm:px-6">
+              <p className="text-[0.65rem] font-extrabold uppercase tracking-[0.22em] text-primary">Product studio</p>
+              <SheetTitle className="font-heading pr-10 text-2xl font-bold leading-tight tracking-tight">
+                {product.name}
+              </SheetTitle>
+            </SheetHeader>
 
-            <div className={styles.content}>
-              <div className={styles.visualSection}>
-                <div className={styles.imagePlaceholder}>
-                  {product.imageUrl ? (
-                    <Image 
-                      src={product.imageUrl} 
-                      alt={product.name} 
-                      fill
-                      className={styles.productImg}
-                    />
-                  ) : (
-                    <div className={styles.glowIcon}>✦</div>
-                  )}
-                </div>
-                <div className={styles.productInfo}>
-                  <div className={styles.meta}>
-                    <span className={styles.price}>${basePrice.toFixed(2)}</span>
-                    {product.calories && (
-                      <div className={styles.calories}>
-                        <Flame size={14} />
-                        <span>{product.calories} kcal</span>
+            <ScrollArea className="min-h-0 flex-1">
+              <div className="border-b border-border/60 bg-muted/20 px-5 py-6 sm:px-6">
+                <div className="grid grid-cols-[minmax(0,140px)_1fr] items-center gap-5 sm:grid-cols-[160px_1fr] sm:gap-8">
+                  <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border/60 bg-black/40 shadow-inner ring-1 ring-inset ring-white/5">
+                    {product.imageUrl ? (
+                      <Image src={product.imageUrl} alt={product.name} fill className="object-cover" sizes="200px" />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-primary">
+                        <Sparkles className="size-10" strokeWidth={1.25} />
                       </div>
                     )}
                   </div>
-                  <p className={styles.description}>{product.description}</p>
+                  <div className="flex min-w-0 flex-col gap-3">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <span className="font-heading text-2xl font-bold text-primary">${basePrice.toFixed(2)}</span>
+                      {product.calories && (
+                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                          <Flame className="size-4 text-primary/80" />
+                          <span>{product.calories} kcal</span>
+                        </div>
+                      )}
+                    </div>
+                    {product.description && (
+                      <p className="text-sm leading-relaxed text-muted-foreground">{product.description}</p>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className={styles.customizationWrapper}>
+              <div className="space-y-10 px-5 py-8 sm:px-6">
                 {modifierGroups.map((group: any) => (
-                  <section key={group.id} className={styles.customizationGroup}>
-                    <div className={styles.groupHeader}>
-                      <div>
-                        <h3 className={styles.groupTitle}>{group.name}</h3>
-                        <p className={styles.groupSubtitle}>
-                          {group.minSelection > 0 
-                            ? `Selection required (min ${group.minSelection})` 
-                            : `Optional enhancements (max ${group.maxSelection})`}
-                        </p>
-                      </div>
+                  <section key={group.id} className="space-y-4">
+                    <div>
+                      <h3 className="font-heading text-base font-semibold text-foreground">{group.name}</h3>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {group.minSelection > 0
+                          ? `Selection required (min ${group.minSelection})`
+                          : `Optional (max ${group.maxSelection})`}
+                      </p>
                     </div>
-                    <div className={styles.optionsList}>
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                       {group.options.map((option: any) => {
-                        const isSelected = selectedModifiers.some(m => m.id === option.id);
+                        const isSelected = selectedModifiers.some((m) => m.id === option.id);
                         return (
-                          <motion.button 
-                            key={option.id} 
+                          <motion.button
+                            key={option.id}
+                            type="button"
                             whileTap={{ scale: 0.98 }}
-                            className={`${styles.optionBtn} ${isSelected ? styles.active : ''}`}
                             onClick={() => toggleModifier(group, option)}
-                          >
-                            <span className={styles.optionName}>{option.name}</span>
-                            {option.priceModifier > 0 && (
-                              <span className={styles.optionPrice}>+${option.priceModifier.toFixed(2)}</span>
+                            className={cn(
+                              "relative flex flex-col gap-1 rounded-2xl border p-4 text-left transition-colors",
+                              isSelected
+                                ? "border-primary bg-primary/10 shadow-[0_0_0_1px] shadow-primary/40"
+                                : "border-border/60 bg-muted/20 hover:border-primary/50 hover:bg-muted/35"
                             )}
-                            {isSelected && <motion.div layoutId="check" className={styles.check}>✦</motion.div>}
+                          >
+                            <span className="text-sm font-semibold text-foreground">{option.name}</span>
+                            {option.priceModifier > 0 && (
+                              <span className="text-xs font-bold text-primary">+${option.priceModifier.toFixed(2)}</span>
+                            )}
+                            {isSelected && (
+                              <motion.span
+                                layoutId="product-option-check"
+                                className="absolute right-3 top-3 text-primary"
+                              >
+                                <Sparkles className="size-4" />
+                              </motion.span>
+                            )}
                           </motion.button>
                         );
                       })}
@@ -172,45 +172,43 @@ const ProductDrawer = () => {
                   </section>
                 ))}
               </div>
-            </div>
+            </ScrollArea>
 
-            <footer className={styles.footer}>
-              <div className={styles.footerControls}>
-                <div className={styles.quantityWrapper}>
-                  <button 
-                    className={styles.qtyBtn} 
+            <div className="shrink-0 border-t border-border/60 bg-card/95 px-5 py-5 backdrop-blur-md sm:px-6">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <div className="flex items-center justify-center gap-1 rounded-xl border border-border/60 bg-muted/30 p-1 sm:justify-start">
+                  <button
+                    type="button"
+                    className="inline-flex size-11 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    aria-label="Decrease quantity"
                   >
-                    <Minus size={18} />
+                    <Minus className="size-5" />
                   </button>
-                  <span className={styles.quantity}>{quantity}</span>
-                  <button 
-                    className={styles.qtyBtn} 
+                  <span className="min-w-[2.5rem] text-center text-base font-bold tabular-nums">{quantity}</span>
+                  <button
+                    type="button"
+                    className="inline-flex size-11 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     onClick={() => setQuantity(quantity + 1)}
+                    aria-label="Increase quantity"
                   >
-                    <Plus size={18} />
+                    <Plus className="size-5" />
                   </button>
                 </div>
-                
-                <Button 
-                  variant="primary" 
-                  size="lg" 
-                  fullWidth 
-                  onClick={handleAddToCart}
+                <Button
+                  className="h-12 flex-1 text-sm font-semibold sm:h-12"
                   disabled={!isSelectionValid}
-                  className={styles.submitBtn}
+                  onClick={handleAddToCart}
                 >
-                  Confirm — ${totalPrice.toFixed(2)}
+                  Add to bag — ${totalPrice.toFixed(2)}
                 </Button>
               </div>
-            </footer>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-
+            </div>
+          </>
+        )}
+      </SheetContent>
+    </Sheet>
   );
 };
-
 
 export default ProductDrawer;

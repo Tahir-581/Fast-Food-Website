@@ -1,8 +1,8 @@
 import React from 'react';
-import { Plus, Sparkles } from 'lucide-react';
-import { products } from '@/lib/mockData';
-import { useShopStore } from '@/lib/store';
-import Button from '@/components/ui/Button/Button';
+import { Plus, Sparkles, Salad, CupSoda } from "lucide-react";
+import { products } from "@/lib/mockData";
+import { useShopStore } from "@/lib/store";
+import { Button } from "@/components/ui/button";
 import Card from '@/components/ui/Card/Card';
 import styles from './UpsellSection.module.css';
 
@@ -29,17 +29,25 @@ const UpsellSection = () => {
           {upsellItems.map((item) => (
             <Card key={item.id} glass className={styles.upsellCard}>
               <div className={styles.itemInfo}>
-                <span className={styles.icon}>{item.category === 'sides' ? '🍟' : '🥤'}</span>
+                <span className={styles.icon}>
+                  {item.category === "sides" ? (
+                    <Salad className="size-6 text-primary" strokeWidth={1.5} />
+                  ) : (
+                    <CupSoda className="size-6 text-primary" strokeWidth={1.5} />
+                  )}
+                </span>
                 <div className={styles.text}>
                   <h4>{item.name}</h4>
                   <span className={styles.price}>+${item.price.toFixed(2)}</span>
                 </div>
               </div>
-              <Button 
-                variant="secondary" 
-                size="sm" 
+              <Button
+                type="button"
+                variant="secondary"
+                size="icon-sm"
                 className={styles.addBtn}
                 onClick={() => addItem(item)}
+                aria-label={`Add ${item.name}`}
               >
                 <Plus size={16} />
               </Button>

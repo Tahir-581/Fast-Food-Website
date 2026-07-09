@@ -2,8 +2,8 @@ import React from 'react';
 import { Plus, Flame, Star } from 'lucide-react';
 import { Product } from '@/lib/mockData';
 import { useShopStore } from '@/lib/store';
-import Badge from '@/components/ui/Badge/Badge';
-import Button from '@/components/ui/Button/Button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import Card from '@/components/ui/Card/Card';
 import styles from './ComboCard.module.css';
 
@@ -30,7 +30,7 @@ const ComboCard: React.FC<ComboCardProps> = ({ product }) => {
           <span className={styles.categoryIcon}>🍱</span>
         </div>
         <div className={styles.badgeWrapper}>
-          <Badge variant="warning" size="md" className={styles.comboBadge}>
+          <Badge variant="default" className={styles.comboBadge}>
             <Star size={14} fill="currentColor" /> BEST VALUE COMBO
           </Badge>
         </div>
@@ -57,9 +57,10 @@ const ComboCard: React.FC<ComboCardProps> = ({ product }) => {
             <span className={styles.includes}>Includes Fries & Drink</span>
           </div>
           
-          <Button 
-            size="lg" 
-            variant="primary" 
+          <Button
+            type="button"
+            size="lg"
+            variant="default"
             className={styles.addButton}
             onClick={(e) => {
               e.stopPropagation();

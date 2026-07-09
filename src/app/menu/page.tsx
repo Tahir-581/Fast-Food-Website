@@ -2,17 +2,18 @@
 
 import React, { useMemo, useEffect } from 'react';
 import { useShopStore } from '@/lib/store';
-import { useUIStore } from '@/lib/store/ui';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ProductCard from '@/components/ui/ProductCard/ProductCard';
 import CategoryTabs from '@/components/menu/CategoryTabs/CategoryTabs';
 import OmniSearch from '@/components/menu/OmniSearch/OmniSearch';
 import ComboCard from '@/components/menu/ComboCard/ComboCard';
 import UpsellSection from '@/components/menu/UpsellSection/UpsellSection';
-import styles from './page.module.css';
-import MenuSkeleton from '@/components/menu/MenuSkeleton/MenuSkeleton';
-import { motion, AnimatePresence } from 'framer-motion';
-import Button from '@/components/ui/Button/Button';
+import styles from "./page.module.css";
+import MenuSkeleton from "@/components/menu/MenuSkeleton/MenuSkeleton";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Sparkles } from "lucide-react";
 
 const MenuPage = () => {
   const { categories, fetchMenu, isLoading } = useShopStore();
@@ -69,7 +70,7 @@ const MenuPage = () => {
 
   if (isLoading && categories.length === 0) {
     return (
-      <main className={styles.menuPage}>
+      <main className={cn(styles.menuPage, "mesh-bg")}>
         <div className={styles.container}>
           <MenuSkeleton />
         </div>
@@ -78,7 +79,7 @@ const MenuPage = () => {
   }
 
   return (
-    <main className={styles.menuPage}>
+    <main className={cn(styles.menuPage, "mesh-bg")}>
       <header className={styles.hero}>
         <div className={styles.container}>
           <motion.div 
@@ -129,14 +130,13 @@ const MenuPage = () => {
 
           {filteredProducts.length === 0 && (
             <div className={styles.emptyState}>
-              <div className={styles.emptyIcon}>✦</div>
+              <div className="flex size-16 items-center justify-center rounded-2xl border border-border/60 bg-muted/30 text-primary">
+                <Sparkles className="size-8" strokeWidth={1.25} />
+              </div>
               <h3>Nothing matches the frequency</h3>
               <p>Your search returned no matches. Adjust your filters to discover the embers.</p>
-              <Button 
-                onClick={() => router.push('/menu?category=burgers')}
-                variant="outline"
-              >
-                Reset Selection
+              <Button type="button" variant="outline" className="mt-2" onClick={() => router.push("/menu?category=burgers")}>
+                Reset selection
               </Button>
             </div>
           )}
