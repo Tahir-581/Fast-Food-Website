@@ -3,11 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id: categoryId } = await params;
   try {
     const body = await req.json();
-    const categoryId = params.id;
 
     const { id, _count, ...updateData } = body;
 
@@ -31,10 +31,10 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id: categoryId } = await params;
   try {
-    const categoryId = params.id;
     await prisma.category.delete({
       where: { id: categoryId },
     });

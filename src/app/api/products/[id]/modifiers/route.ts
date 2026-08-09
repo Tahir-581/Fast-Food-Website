@@ -3,11 +3,12 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const modifierGroups = await prisma.modifierGroup.findMany({
-      where: { productId: params.id },
+      where: { productId: id },
       include: {
         options: true,
       },

@@ -5,8 +5,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
   // In a real app we'd check if user is ADMIN
   if (!session?.user) {
@@ -15,7 +16,7 @@ export async function GET(
 
   try {
     const order = await prisma.order.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         items: true,
         user: {
@@ -42,8 +43,9 @@ export async function GET(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -53,7 +55,7 @@ export async function PATCH(
     const { status } = await req.json();
 
     const order = await prisma.order.update({
-      where: { id: params.id },
+      where: { id },
       data: { status },
       include: {
         items: true,
@@ -63,7 +65,7 @@ export async function PATCH(
     // Create a fulfillment log for the audit trail
     await prisma.fulfillmentLog.create({
       data: {
-        orderId: params.id,
+        orderId: id,
         status,
         actor: session.user.name || "System",
         note: `Status updated to ${status}`
