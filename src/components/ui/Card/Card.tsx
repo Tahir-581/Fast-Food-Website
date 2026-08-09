@@ -9,6 +9,7 @@ interface CardProps {
   hoverable?: boolean;
   glass?: boolean;
   className?: string;
+  style?: React.CSSProperties;
   onClick?: () => void;
 }
 
@@ -18,6 +19,7 @@ const Card: React.FC<CardProps> = ({
   hoverable = false,
   glass = false,
   className = '',
+  style,
   onClick
 }) => {
   const combinedClassName = `
@@ -29,7 +31,7 @@ const Card: React.FC<CardProps> = ({
   `.trim();
 
   return (
-    <div className={combinedClassName} onClick={onClick}>
+    <div className={combinedClassName} style={style} onClick={onClick}>
       {children}
     </div>
   );
