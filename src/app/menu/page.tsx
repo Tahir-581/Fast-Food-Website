@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, Suspense } from 'react';
 import { useShopStore } from '@/lib/store';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ProductCard from '@/components/ui/ProductCard/ProductCard';
@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Sparkles } from "lucide-react";
 
-const MenuPage = () => {
+const MenuPageContent = () => {
   const { categories, fetchMenu, isLoading } = useShopStore();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -147,5 +147,19 @@ const MenuPage = () => {
     </main>
   );
 };
+
+const MenuPage = () => (
+  <Suspense
+    fallback={
+      <main className={cn(styles.menuPage, "mesh-bg")}>
+        <div className={styles.container}>
+          <MenuSkeleton />
+        </div>
+      </main>
+    }
+  >
+    <MenuPageContent />
+  </Suspense>
+);
 
 export default MenuPage;
